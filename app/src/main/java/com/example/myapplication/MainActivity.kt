@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
     private lateinit var proximSensor:Sensor
     private lateinit var accSensor: Sensor
     private var isStarted:Boolean = false
+    private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -89,6 +90,15 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
             val ans = sqrt(x+y+z)
 
             binding.showAcc.text = ans.toString()
+
+            if(ans > 1.2 && count < 3){
+                binding.showResult.text = "晃動"
+                count++
+                Thread.sleep(1000)
+            }else if(ans > 1.2 && count >=3){
+                binding.showResult.text = "Open the door"
+                count = 0
+            }
         }
     }
 
